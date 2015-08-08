@@ -2,7 +2,7 @@
 Flatten Python classes with multiple inheritance
 
 # What is this?
-I sometimes wonder where those methods and attributes are coming from when working on a python class which extends multiple super classes. This simple script flattens given class and adds informative comments beside method definitions.
+I sometimes wonder where those methods and attributes are coming from when working on a python class which extends multiple super classes. This is especially very painful when you are working on libraries which excessively use Mixin pattern. This simple script flattens given class and adds informative comments beside method definitions.
 
 #Example
 
@@ -37,4 +37,3 @@ class B(A):
   def a_method(self):  # /home/someuser/something.py <class '__main__.A'>
     print('a')
 ```
-
