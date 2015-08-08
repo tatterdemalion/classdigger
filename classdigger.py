@@ -27,8 +27,12 @@ class ClassDigger(object):
                     if _smember == member:
                         structure['members'][name]['root'] = {
                             'obj': _smember,
-                            'cls': _super,
-                            'file': inspect.getabsfile(_super)}
+                            'cls': _super}
+                        try:
+                            f = inspect.getabsfile(_super)
+                            structure['members'][name]['root']['file'] = f
+                        except TypeError:
+                            structure['members'][name]['root']['file'] = None
         return structure
 
     def as_text(self):
