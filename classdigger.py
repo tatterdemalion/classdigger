@@ -18,8 +18,11 @@ class ClassDigger(object):
             if self.is_excluded(name):
                 continue
             structure['members'][name] = {'obj': member}
-            structure['members'][name]['lines'] = inspect.getsourcelines(
-                member)
+            try:
+                structure['members'][name]['lines'] = inspect.getsourcelines(
+                    member)
+            except:
+                structure['members'][name]['lines'] = [['']]
             for _super in supers:
                 for _sname, _smember in inspect.getmembers(_super):
                     if self.is_excluded(_sname):
