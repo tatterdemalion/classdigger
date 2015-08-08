@@ -3,6 +3,8 @@ from examples.b import B
 
 
 class C(A, B):
+    override_this_attr = False
+
     def c_method(self):
         pass
 

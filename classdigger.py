@@ -13,29 +13,36 @@ class ClassDigger(object):
     def get_structure(self, cls):
         supers = list(inspect.getmro(cls))
         supers.pop(0)
-        structure = {'cls': cls, 'supers': supers, 'members': {}}
+        structure = {'cls': cls, 'supers': supers, 'members': []}
         for name, member in inspect.getmembers(cls):
             if self.is_excluded(name):
                 continue
-            structure['members'][name] = {'obj': member}
+            structure_member = {'obj': member, 'name': name}
             try:
-                structure['members'][name]['lines'] = inspect.getsourcelines(
+                structure_member['lines'] = inspect.getsourcelines(
                     member)
+                structure_member['type'] = 'method'
             except:
-                structure['members'][name]['lines'] = [['']]
+                structure_member['lines'] = [
+                    ['    %s = %s\n' % (name, member)]]
+                structure_member['type'] = 'attr'
             for _super in supers:
                 for _sname, _smember in inspect.getmembers(_super):
                     if self.is_excluded(_sname):
                         continue
-                    if _smember == member:
-                        structure['members'][name]['root'] = {
+                    if _sname == name and _smember == member:
+                        structure_member['root'] = {
                             'obj': _smember,
                             'cls': _super}
                         try:
                             f = inspect.getabsfile(_super)
-                            structure['members'][name]['root']['file'] = f
+                            structure_member['root']['file'] = f
                         except TypeError:
-                            structure['members'][name]['root']['file'] = None
+                            structure_member['root']['file'] = None
+            if structure_member['type'] == 'attr':
+                structure['members'].insert(0, structure_member)
+            else:
+                structure['members'].append(structure_member)
         return structure
 
     def as_text(self):
@@ -44,14 +51,14 @@ class ClassDigger(object):
             inherited.pop(inherited.index('object'))
         txt = 'class %s(%s):\n' % (
             self.structure['cls'].__name__, ','.join(inherited))
-        for name, member in self.structure['members'].items():
+        for member in self.structure['members']:
             lines = member['lines'][0][:]
             if member.get('root'):
                 lines[0] = lines[0].replace(
                     '\n', '  # %s %s \n' % (
                         member['root']['file'],
                         member['root']['cls']))
-            txt += ''.join(lines)
+            txt += '\n' + ''.join(lines)
 
         return txt
 
