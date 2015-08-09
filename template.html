@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>{{ structure.cls.__name__ }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/solarized_dark.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/languages/python.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <style>
+      .row .first {
+        width: 600px;
+        float: left;
+      }
+      .row .info {
+        float: left;
+      }
+      pre {
+        border: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-header">{{ structure.cls.__name__ }}</h1>
+      <div class="rows">
+        <div class="row">
+          <div class="first">
+            <pre><code class="python">{{ structure.inherited }}</code></pre>
+          </div>
+        </div>
+        {% for member in structure.members %}
+        {% for line in member.lines.0 %}
+        <div class="row">
+          <div class="first">
+            <pre><code class="python">{{ line }}</code></pre>
+          </div>
+          <div class="last">
+            {% if member.root %}
+              {{ member.root.file }} - {{ member.root.cls.__name__ }}
+            {% else %}
+              {{ member.file }} - {{ structure.cls.__name__ }}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+      <div>
+    </div>
+    <script>
+      $('.row').on({
+          "mouseenter": function(e){
+            $(this).css('border', '1px solid red'); 
+          },
+          "mouseleave": function(e){
+            $(this).css('border', 'none');
+          }
+      });
+    </script>
+  </body>
+</html>
