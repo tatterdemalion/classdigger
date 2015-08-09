@@ -6,6 +6,11 @@ I sometimes wonder where those methods and attributes are coming from when worki
 
 #Example
 
+Here is the screencast of html output for ```D``` in  ```examples/d.py```:
+
+![output](https://raw.githubusercontent.com/tatterdemalion/classdigger/master/output.gif)
+
+
 Create a file with following code
 ```
 # something.py
