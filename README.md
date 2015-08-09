@@ -37,3 +37,11 @@ class B(A):
   def a_method(self):  # /home/someuser/something.py <class '__main__.A'>
     print('a')
 ```
+
+Or you can just run classdigger
+
+```
+python classdigger.py
+```
+
+And take a look at ```examples/results.py``` and ```examples/results.html``` afterwards.
