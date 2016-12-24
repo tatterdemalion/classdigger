@@ -50,3 +50,7 @@ python classdigger.py
 ```
 
 And take a look at ```examples/results.py``` and ```examples/results.html``` afterwards.
+
+# What to do next?
+
+Turn this into a vim module.
